@@ -6,7 +6,10 @@ using CoreBusinessLogic.Interface;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using System;
+using System.Globalization;
 using System.IO;
+using System.Linq;
+using static Calculator_ConsoleApp.Calculator;
 
 namespace Calculator_ConsoleApp
 {

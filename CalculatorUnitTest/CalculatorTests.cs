@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using Xunit;
 using Moq;
+using static Calculator_ConsoleApp.Calculator;
 using Serilog;
 using Calculator_ConsoleApp.Utilities;
 using Calculator_ConsoleApp;
