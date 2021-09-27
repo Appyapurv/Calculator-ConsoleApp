@@ -40,7 +40,7 @@ namespace CalculatorUnitTest
         {
             var exp = "30+40";
 
-            var result = _calculator.Calculate(exp,_logger.Object);
+            var result = _calculator.Calculate(exp, _logger.Object);
             Assert.True(result.Equals(70));
         }
         /// <summary>
