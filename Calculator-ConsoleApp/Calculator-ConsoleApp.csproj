@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>Calculator_ConsoleApp</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Interface\**" />
+    <Compile Remove="Models\**" />
+    <Compile Remove="Operation\**" />
+    <Compile Remove="Services\**" />
+    <EmbeddedResource Remove="Interface\**" />
+    <EmbeddedResource Remove="Models\**" />
+    <EmbeddedResource Remove="Operation\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="Interface\**" />
+    <None Remove="Models\**" />
+    <None Remove="Operation\**" />
+    <None Remove="Services\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
+    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CoreBusinessLogic\CoreBusinessLogic.csproj" />
+  </ItemGroup>
+
+</Project>
