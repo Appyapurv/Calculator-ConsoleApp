@@ -1,4 +1,5 @@
-﻿using Calculator_ConsoleApp.Utilities;
+﻿using Calculator_ConsoleApp.Extension;
+using Calculator_ConsoleApp.Utilities;
 using CoreBusinessLogic.Interface;
 using CoreBusinessLogic.Models.Enums;
 using CoreBusinessLogic.Operation;
@@ -31,7 +32,7 @@ namespace Calculator_ConsoleApp.Builders
             var leftSide = MultiplyDivideCalc(symbols, index, out index, logger);
             while (index < symbols.Count)
             {
-                if (!(symbols[index] is OperatorService currentSymbol) || currentSymbol.OperatorType == OperatorType.Multiply || currentSymbol.OperatorType == OperatorType.Divide)
+                if (!(symbols[index] is OperatorService currentSymbol) || currentSymbol.OperatorType == OperatorType.Multiply || currentSymbol.OperatorType == OperatorType.Divide || currentSymbol.OperatorType == OperatorType.Mod)
                 {
                     currentIndex = index;
                     return leftSide;
@@ -82,6 +83,9 @@ namespace Calculator_ConsoleApp.Builders
                     case OperatorType.Divide:
                         leftSide = new DivideOperation(leftSide, rightSide);
                         break;
+                    case OperatorType.Mod:
+                        leftSide = new ModOperation(leftSide, rightSide);
+                        break;
                 }
             }
             currentIndex = index;
@@ -120,7 +124,7 @@ namespace Calculator_ConsoleApp.Builders
                 return unarySymbol;
             }
             logger.Error("unary operation failed");
-            throw new FormatException("unary operation failed");
+            throw new CustomException("unary operation failed");
 
         }
         /// <summary>
@@ -154,7 +158,7 @@ namespace Calculator_ConsoleApp.Builders
                 }
             }
             logger.Error($"Unexpected symbol:{symbols[index]}");
-            throw new FormatException($"Unexpected symbol:{symbols[index]}");
+            throw new CustomException($"Unexpected symbol:{symbols[index]}");
         }
     }
 }

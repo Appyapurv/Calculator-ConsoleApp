@@ -9,6 +9,7 @@ namespace CoreBusinessLogic.Models.Enums
         Add,
         Subtract,
         Multiply,
-        Divide
+        Divide,
+        Mod
     }
 }

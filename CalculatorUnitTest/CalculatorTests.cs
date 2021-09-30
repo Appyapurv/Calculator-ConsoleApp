@@ -10,6 +10,8 @@ using Calculator_ConsoleApp;
 using CoreBusinessLogic.Interface;
 using CoreBusinessLogic.Helper;
 using Calculator_ConsoleApp.Builders;
+using CoreBusinessLogic.Services;
+using CoreBusinessLogic.Models.Enums;
 
 namespace CalculatorUnitTest
 {
@@ -19,6 +21,7 @@ namespace CalculatorUnitTest
         private Mock<ILogger> _logger;
         private readonly IParser _parser;
         private readonly IOperationBuilder _builder;
+        private readonly Mock<IParser> _parser1;
 
         /// <summary>
         /// Initializes a new instance of Calculator class.
@@ -30,6 +33,7 @@ namespace CalculatorUnitTest
             _builder = new OperationBuilder();
             _calculator = new Calculator(_parser, _builder);
             _logger = new Mock<ILogger>();
+            _parser1 = new Mock<IParser>();
         }
         /// <summary>
         /// Tests to calculate the add operator result should succeeded .
@@ -155,7 +159,9 @@ namespace CalculatorUnitTest
         public void Calculator_Invalid_Expression_ResultShoudBeFailed()
         {
             var expression = "(";
-            Assert.Throws<FormatException>(() => InputValidator.Validate(expression, _logger.Object));
+
+            var result = InputValidator.Validate(expression, _logger.Object);
+            Assert.True(result.Item1.Equals(false));
         }
         /// <summary>
         /// Tests to check invalid brackets in expression failed.
@@ -165,15 +171,63 @@ namespace CalculatorUnitTest
         public void Calculator_UsingStringValidatorWithWrongParentheses_ShouldThrowFormatException()
         {
             var expression = "9 - 9 * (415 - 2) + (32 / 2 +";
+
+            var result = InputValidator.Validate(expression, _logger.Object);
             // Assert
-            Assert.Throws<FormatException>(() => InputValidator.Validate(expression, _logger.Object));
+            Assert.True(result.Item1.Equals(false));
         }
         [Fact]
         public void Calculator_UsingStringValidatorWithWrongParentheses_WithOperatorName_ShouldThrowFormatException()
         {
             var expression = "9 minus 9 into (41 subtract 2) add (32 divide 2 sum";
+            var result = InputValidator.Validate(expression, _logger.Object);
             // Assert
-            Assert.Throws<FormatException>(() => InputValidator.Validate(expression, _logger.Object));
+            Assert.True(result.Item1.Equals(false));
         }
+        [Fact]
+        public void Calculate_MockTest()
+        {
+            // var exp = "(+30-20)";
+            IList<OperatorEvaluator> symbols = new List<OperatorEvaluator>()
+            {
+                 new FunctionService(SpecialSymbolType.OpenBrackets),
+                 new OperatorService(OperatorType.Add),
+                 new NumberService(30),
+                 new OperatorService(OperatorType.Subtract),
+                 new NumberService(20),
+                 new FunctionService(SpecialSymbolType.CloseBrackets)
+             };
+
+            var result = _builder.CreateOperation(symbols, _logger.Object);
+            var res = result.Calculate();
+            Assert.True(res.Equals(10), $"actual result should be:{10} and came is {res}");
+        }
+
+        [Fact]
+        public void Calculate_ModTest_ShouldSuccess()
+        {
+            var exp = "10 % 2";
+
+            var result = _calculator.Calculate(exp, _logger.Object);
+            Assert.True(result.Equals(0));
+        }
+        //[Fact]
+        //public void Calculator__ShouldThrowFormatException()
+        //{
+        //    var expression = "9 minus 9 into (41 subtract 2) add (32 divide 2 sum";
+
+        //    IList<OperatorEvaluator> symbols = new List<OperatorEvaluator>()
+        //    {
+        //         new FunctionService(SpecialSymbolType.OpenBrackets),
+        //         new OperatorService(OperatorType.Add),
+        //         new NumberService(30),
+        //         new OperatorService(OperatorType.Subtract),
+        //         new NumberService(20),
+        //         new FunctionService(SpecialSymbolType.CloseBrackets)
+        //     };
+        //    _parser1.Setup(x => x.Parse(expression)).Returns(symbols);
+        //    _parser1.Verify(x => x.Parse(expression),Times.Never);
+
+        //}
     }
 }

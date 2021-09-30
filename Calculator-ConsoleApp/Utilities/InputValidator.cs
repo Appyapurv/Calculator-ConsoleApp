@@ -13,12 +13,14 @@ namespace Calculator_ConsoleApp.Utilities
         /// </summary>
         /// <param name="expression"></param>
         /// <param name="logger"></param>
-        public static void Validate(string expression, ILogger logger)
+        public static Tuple<bool, string> Validate(string expression, ILogger logger)
         {
             if (string.IsNullOrWhiteSpace(expression))
             {
                 logger.Error("Expression is Empty");
-                throw new FormatException("Expression is Empty");
+                return new Tuple<bool, string>(false, "Expression is Empty");
+                //throw new FormatException("Expression is Empty");
+
             }
 
             var openBracketCount = expression.Count(c => c == '(');
@@ -27,7 +29,8 @@ namespace Calculator_ConsoleApp.Utilities
             if (openBracketCount != closeBracketCount)
             {
                 logger.Error("Wrong no of parenthesis");
-                throw new FormatException("Wrong no of parenthesis");
+                return new Tuple<bool, string>(false, "Wrong no of parenthesis");
+                //throw new FormatException("Wrong no of parenthesis");
             }
 
             var orderOfBracket = expression.Where(c => c == '(' || c == ')').Aggregate("", (current, next) => current + next);
@@ -38,8 +41,10 @@ namespace Calculator_ConsoleApp.Utilities
             if (!string.IsNullOrEmpty(orderOfBracket))
             {
                 logger.Error("Wrong order of bracket in the expression");
-                throw new FormatException("Wrong order of bracket in the expression");
+                return new Tuple<bool, string>(false, "Wrong order of bracket in the expression");
+                //throw new FormatException("Wrong order of bracket in the expression");
             }
+            return new Tuple<bool, string>(true, "Success");
         }
     }
 }

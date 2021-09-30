@@ -40,7 +40,7 @@ namespace Calculator_ConsoleApp.Extension
             dictionary.Add("into", '*');
             dictionary.Add("multiply", '*');
             dictionary.Add("divide", '/');
-
+            dictionary.Add("Mod", '%');
 
             foreach (var expr in splitList)
             {

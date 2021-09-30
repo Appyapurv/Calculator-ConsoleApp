@@ -43,7 +43,10 @@ namespace CoreBusinessLogic.Helper
                             break;
                         case '/':
                             listOfSymbols.Add(new OperatorService(OperatorType.Divide));
-                            break;                       
+                            break;
+                        case '%':
+                            listOfSymbols.Add(new OperatorService(OperatorType.Mod));
+                            break;
                         default: throw new FormatException($"UnExpected symbol {expression[i]}");
                     }
                 }

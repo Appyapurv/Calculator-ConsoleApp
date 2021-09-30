@@ -55,7 +55,14 @@ namespace Calculator_ConsoleApp
                     default:
                         try
                         {
-                            InputValidator.Validate(expression, logger);
+                            var validate = InputValidator.Validate(expression, logger);
+                            if (validate.Item1 == false)
+                            {
+                                logger.Error($" Validation check: {validate.Item2}");
+                                Console.WriteLine($" Validation check: {validate.Item2}");
+                                continue;
+                            }
+
                             var result = calculator.Calculate(expression, logger);
                             Console.WriteLine($"{expression} = {result}");
                             continue;
