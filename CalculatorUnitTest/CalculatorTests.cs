@@ -211,6 +211,14 @@ namespace CalculatorUnitTest
             var result = _calculator.Calculate(exp, _logger.Object);
             Assert.True(result.Equals(0));
         }
+        [Fact]
+        public void Calculate_sqaureRootTest_ShouldSuccess()
+        {
+            var exp = "2#";
+
+            var result = _calculator.Calculate(exp, _logger.Object);
+            Assert.True(result.Equals(1.4142135623730951));
+        }
         //[Fact]
         //public void Calculator__ShouldThrowFormatException()
         //{
