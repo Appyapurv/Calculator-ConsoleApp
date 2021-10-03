@@ -10,6 +10,7 @@ namespace CoreBusinessLogic.Operation
         private readonly CalcOperation<double> _leftSide;
         private readonly CalcOperation<double> _rightSide;
         private readonly Func<double, double, double> _operatorFunction;
+        private readonly Func<double, double> _operation;
 
         protected Operation(CalcOperation<double> leftSide, CalcOperation<double> rightSide, Func<double, double, double> operatorFunction)
         {
@@ -17,10 +18,26 @@ namespace CoreBusinessLogic.Operation
             _rightSide = rightSide;
             _operatorFunction = operatorFunction;
         }
+
+        protected Operation(CalcOperation<double> leftSide, Func<double, double> @operation)
+        {
+            _leftSide = leftSide;
+            _operation = operation;
+        }
+
         /// <summary>
         /// calculate override method which will calculate the leftside and rightside values
         /// </summary>
         /// <returns></returns>
-        public override double Calculate() => _operatorFunction(_leftSide.Calculate(), _rightSide.Calculate());
+        public override double Calculate()
+        {
+
+            if (_rightSide?.Calculate() == null)
+            {
+                return _operation(_leftSide.Calculate());
+            }
+            return _operatorFunction(_leftSide.Calculate(), _rightSide.Calculate());
+        }
+
     }
 }

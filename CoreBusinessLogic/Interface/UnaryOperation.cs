@@ -9,6 +9,7 @@ namespace CoreBusinessLogic.Interface
         private readonly CalcOperation<double> _rightSide;
         private readonly Func<double, double> _operator;
 
+
         protected UnaryOperation(CalcOperation<double> rightSide, Func<double, double> @operator)
         {
             _rightSide = rightSide;

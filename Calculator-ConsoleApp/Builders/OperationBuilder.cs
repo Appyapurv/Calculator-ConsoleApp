@@ -32,7 +32,7 @@ namespace Calculator_ConsoleApp.Builders
             var leftSide = MultiplyDivideCalc(symbols, index, out index, logger);
             while (index < symbols.Count)
             {
-                if (!(symbols[index] is OperatorService currentSymbol) || currentSymbol.OperatorType == OperatorType.Multiply || currentSymbol.OperatorType == OperatorType.Divide || currentSymbol.OperatorType == OperatorType.Mod)
+                if (!(symbols[index] is OperatorService currentSymbol) || currentSymbol.OperatorType == OperatorType.Multiply || currentSymbol.OperatorType == OperatorType.Divide || currentSymbol.OperatorType == OperatorType.Mod || currentSymbol.OperatorType == OperatorType.sqrt)
                 {
                     currentIndex = index;
                     return leftSide;
@@ -47,6 +47,9 @@ namespace Calculator_ConsoleApp.Builders
                         break;
                     case OperatorType.Subtract:
                         leftSide = new SubtractOperation(leftSide, rightSide);
+                        break;
+                    case OperatorType.sqrt:
+                        leftSide = new SqrtOperation(leftSide);
                         break;
                 }
             }
@@ -71,6 +74,13 @@ namespace Calculator_ConsoleApp.Builders
                 {
                     currentIndex = index;
                     return leftSide;
+                }
+                switch (currentSymbol.OperatorType)
+                {
+                    case OperatorType.sqrt:
+                        leftSide = new SqrtOperation(leftSide);
+                        index += 1;
+                        continue;
                 }
                 index += 1;
                 var rightSide = GetUnaryOperation(symbols, index, out index, logger);
@@ -115,7 +125,9 @@ namespace Calculator_ConsoleApp.Builders
                             var rightSide = GetUnaryOperation(symbols, index, out index, logger);
                             currentIndex = index;
                             return new SubstractUnaryOperation(rightSide);
-
+                        case OperatorType.sqrt:
+                            index += 1;
+                            continue;
                     }
 
                 }

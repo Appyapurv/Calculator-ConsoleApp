@@ -17,6 +17,6 @@ namespace CoreBusinessLogic.Operation
         /// </summary>
         /// <returns></returns>
         public override double Calculate() => _number;
-
+        
     }
 }

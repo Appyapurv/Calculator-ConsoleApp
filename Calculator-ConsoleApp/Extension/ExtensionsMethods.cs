@@ -41,6 +41,7 @@ namespace Calculator_ConsoleApp.Extension
             dictionary.Add("multiply", '*');
             dictionary.Add("divide", '/');
             dictionary.Add("Mod", '%');
+            dictionary.Add("Sqrt", '#');
 
             foreach (var expr in splitList)
             {

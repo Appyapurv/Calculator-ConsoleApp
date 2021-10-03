@@ -10,6 +10,7 @@ namespace CoreBusinessLogic.Models.Enums
         Subtract,
         Multiply,
         Divide,
-        Mod
+        Mod,
+        sqrt
     }
 }

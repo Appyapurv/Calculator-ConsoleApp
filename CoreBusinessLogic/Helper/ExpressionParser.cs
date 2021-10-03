@@ -47,6 +47,9 @@ namespace CoreBusinessLogic.Helper
                         case '%':
                             listOfSymbols.Add(new OperatorService(OperatorType.Mod));
                             break;
+                        case '#':
+                            listOfSymbols.Add(new OperatorService(OperatorType.sqrt));
+                            break;
                         default: throw new FormatException($"UnExpected symbol {expression[i]}");
                     }
                 }
